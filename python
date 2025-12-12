@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Cross-platform shim to run the project's virtualenv Python interpreter.
+# Usage: ./python [args]
+set -e
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Prefer typical Unix venv
+if [ -x "$ROOT_DIR/.venv/bin/python" ]; then
+  exec "$ROOT_DIR/.venv/bin/python" "$@"
+fi
+
+# Windows venv location (Git Bash / MSYS / WSL-aware shells)
+if [ -x "$ROOT_DIR/.venv/Scripts/python.exe" ]; then
+  exec "$ROOT_DIR/.venv/Scripts/python.exe" "$@"
+fi
+
+# Fallback to system python
+if command -v python3 >/dev/null 2>&1; then
+  exec python3 "$@"
+elif command -v python >/dev/null 2>&1; then
+  exec python "$@"
+fi
+
+echo "No Python interpreter found in .venv or system PATH." >&2
+exit 1

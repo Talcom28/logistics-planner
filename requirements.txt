@@ -1,0 +1,12 @@
+fastapi==0.124.2
+uvicorn[standard]==0.29.0
+pydantic==2.12.5
+requests==2.31.0
+python-multipart==0.0.6
+SQLAlchemy==1.4.53
+psycopg2-binary==2.9.9
+geoalchemy2==0.13.4
+shapely==2.1.1
+alembic==1.13.1
+python-dateutil==2.8.2
+streamlit==1.28.1

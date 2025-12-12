@@ -1,0 +1,117 @@
+{
+  "ocean": {
+    "bulkcarrier-75000DWT": {
+      "type": "ocean",
+      "name": "Bulk Carrier 75k DWT",
+      "fuel_capacity_tons": 3500,
+      "consumption_tons_per_nm": 0.08,
+      "service_speed_knots": 14.5,
+      "teu_capacity": 0,
+      "draft_m": 13.5
+    },
+    "containership-20000TEU": {
+      "type": "ocean",
+      "name": "Container Ship 20k TEU",
+      "fuel_capacity_tons": 4000,
+      "consumption_tons_per_nm": 0.15,
+      "service_speed_knots": 20.0,
+      "teu_capacity": 20000,
+      "draft_m": 16.0
+    },
+    "tanker-crude-300000": {
+      "type": "ocean",
+      "name": "ULCV Crude Tanker 300k DWT",
+      "fuel_capacity_tons": 5000,
+      "consumption_tons_per_nm": 0.25,
+      "service_speed_knots": 15.5,
+      "bbl_capacity": 2000000,
+      "draft_m": 21.0
+    }
+  },
+  "air": {
+    "boeing-777F": {
+      "type": "air",
+      "name": "Boeing 777F Freighter",
+      "fuel_capacity_l": 181562,
+      "consumption_kg_per_hr": 5090,
+      "cruise_speed_kmh": 910,
+      "consumption_l_per_km": 0.05,
+      "max_payload_kg": 103500,
+      "range_km": 9200
+    },
+    "airbus-A380F": {
+      "type": "air",
+      "name": "Airbus A380F Freighter",
+      "fuel_capacity_l": 323546,
+      "consumption_kg_per_hr": 10600,
+      "cruise_speed_kmh": 900,
+      "consumption_l_per_km": 0.06,
+      "max_payload_kg": 140000,
+      "range_km": 7450
+    },
+    "cessna-208-caravan": {
+      "type": "air",
+      "name": "Cessna 208 Caravan",
+      "fuel_capacity_l": 1002,
+      "consumption_l_per_hr": 59,
+      "cruise_speed_kmh": 300,
+      "consumption_l_per_km": 0.197,
+      "max_payload_kg": 1533,
+      "range_km": 1300
+    }
+  },
+  "road": {
+    "articulated-truck-40T": {
+      "type": "road",
+      "name": "Articulated Truck 40T GVW",
+      "fuel_capacity_l": 1200,
+      "consumption_l_per_100km": 25,
+      "consumption_l_per_km": 0.25,
+      "cruise_speed_kmh": 85,
+      "max_payload_kg": 25000,
+      "range_km": 800
+    },
+    "box-truck-7.5T": {
+      "type": "road",
+      "name": "Box Truck 7.5T GVW",
+      "fuel_capacity_l": 300,
+      "consumption_l_per_100km": 8,
+      "consumption_l_per_km": 0.08,
+      "cruise_speed_kmh": 80,
+      "max_payload_kg": 3500,
+      "range_km": 600
+    },
+    "van-3.5T": {
+      "type": "road",
+      "name": "Van 3.5T GVW",
+      "fuel_capacity_l": 150,
+      "consumption_l_per_100km": 6,
+      "consumption_l_per_km": 0.06,
+      "cruise_speed_kmh": 75,
+      "max_payload_kg": 1500,
+      "range_km": 400
+    }
+  },
+  "rail": {
+    "freight-locomotive-diesel": {
+      "type": "rail",
+      "name": "Diesel Freight Locomotive",
+      "fuel_capacity_l": 5000,
+      "consumption_l_per_100km": 40,
+      "consumption_l_per_km": 0.40,
+      "cruise_speed_kmh": 80,
+      "max_payload_kg": 4000000,
+      "range_km": 1000
+    },
+    "boxcar-60T": {
+      "type": "rail",
+      "name": "Freight Boxcar 60T",
+      "fuel_capacity_l": 0,
+      "consumption_l_per_100km": 0,
+      "consumption_l_per_km": 0.0,
+      "cruise_speed_kmh": 0,
+      "max_payload_kg": 60000,
+      "range_km": 99999
+    }
+  }
+}
