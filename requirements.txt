@@ -5,7 +5,7 @@ requests==2.31.0
 python-multipart==0.0.6
 SQLAlchemy==1.4.53
 psycopg2-binary==2.9.9
-psycopg[binary]==3.1.18
+psycopg>=3.1,<4
 geoalchemy2==0.14.7
 shapely==2.1.1
 alembic==1.13.1
