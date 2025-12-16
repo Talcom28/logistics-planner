@@ -14,7 +14,7 @@ if (Test-Path $venvExe) {
 # Fallback to system python
 try {
     $py = Get-Command python -ErrorAction Stop
-    & python @args
+    & $py.Path @args
     exit $LASTEXITCODE
 } catch {
     Write-Error "No python interpreter found in .venv or PATH"
