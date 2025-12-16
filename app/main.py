@@ -11,7 +11,11 @@ from typing import Dict, Any
 from pydantic import BaseModel
 
 # create DB tables on startup if they don't exist (simple approach for MVP)
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    # On platforms without DB configured (e.g., first deploy), don't crash the app
+    print(f"[warn] Skipping DB table creation: {e}")
 
 app = FastAPI(title="Logistics Route Planner (Interactive Multi-Modal)")
 
@@ -26,8 +30,11 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_event():
-    db = next(get_db())
-    seed_ports(db)
+    try:
+        db = next(get_db())
+        seed_ports(db)
+    except Exception as e:
+        print(f"[warn] Skipping port seeding: {e}")
 
 
 @app.post("/plan", response_model=PlanResponse)
