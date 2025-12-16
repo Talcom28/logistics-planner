@@ -7,29 +7,42 @@ DATABASE_URL = os.environ.get(
     "postgresql+psycopg2://logistics:logistics@localhost:5432/logistics",
 )
 
-
-def _create_engine_with_fallback(url: str):
-    try:
-        return create_engine(url, echo=False)
-    except ImportError as e:
-        msg = str(e)
-        if "psycopg2" in msg or "_psycopg" in msg:
-            alt_url = url.replace("postgresql+psycopg2", "postgresql+psycopg")
-            if alt_url == url and url.startswith("postgresql://"):
-                alt_url = url.replace("postgresql://", "postgresql+psycopg://", 1)
-            return create_engine(alt_url, echo=False)
-        raise
-
-
-# echo True for debugging locally
-engine = _create_engine_with_fallback(DATABASE_URL)
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
+
+_engine = None
+
+
+def get_engine():
+    global _engine
+    if _engine is not None:
+        return _engine
+    url = DATABASE_URL
+    try:
+        _engine = create_engine(url, echo=False)
+        return _engine
+    except Exception:
+        # Try psycopg (v3) dialect
+        try:
+            alt_url = url
+            if url.startswith("postgresql+psycopg2"):
+                alt_url = url.replace("postgresql+psycopg2", "postgresql+psycopg", 1)
+            elif url.startswith("postgresql://"):
+                alt_url = url.replace("postgresql://", "postgresql+psycopg://", 1)
+            _engine = create_engine(alt_url, echo=False)
+            return _engine
+        except Exception:
+            # As a last resort, use in-memory SQLite so the app can boot
+            try:
+                _engine = create_engine("sqlite:///:memory:", echo=False)
+                return _engine
+            except Exception:
+                # Give up: re-raise the original
+                raise
 
 
 def get_db():
+    engine = get_engine()
+    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
     db = SessionLocal()
     try:
         yield db

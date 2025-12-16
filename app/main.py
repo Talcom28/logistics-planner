@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.models import PlanRequest, PlanResponse
 from app.services.optimizer import build_plan
 from app.services.refuel_optimizer import find_optimal_refuel_route
-from app.db import Base, engine, get_db
+from app.db import Base, get_engine, get_db
 from sqlalchemy.orm import Session
 from app.services.ports_loader import seed_ports
 import os, json
@@ -12,7 +12,7 @@ from pydantic import BaseModel
 
 # create DB tables on startup if they don't exist (simple approach for MVP)
 try:
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=get_engine())
 except Exception as e:
     # On platforms without DB configured (e.g., first deploy), don't crash the app
     print(f"[warn] Skipping DB table creation: {e}")
