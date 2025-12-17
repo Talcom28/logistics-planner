@@ -6,7 +6,7 @@ from app.services.fuel_service import (
     get_diesel_price_for_region,
     get_jet_price_for_region,
 )
-from app.db import SessionLocal
+from app.db import get_db
 from app.models_orm import Port, Plan, PlanLeg
 from geoalchemy2.shape import to_shape
 from app.services.utils import haversine_km, haversine_nm_coords
@@ -102,7 +102,7 @@ def iter_mode_first(model_type: str):
 
 
 def build_plan(req: PlanRequest, carrier_profile: dict = None) -> PlanResponse:
-    db = next(SessionLocal())
+    db = next(get_db())
     from app.services.ports_loader import seed_ports
 
     seed_ports(db)

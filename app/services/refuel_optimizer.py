@@ -29,7 +29,7 @@ from collections import defaultdict, namedtuple
 from math import ceil
 from typing import List, Tuple, Dict, Any
 from app.services.utils import haversine_nm_coords, haversine_km
-from app.db import SessionLocal
+from app.db import get_db
 from app.models_orm import Port, Airport, Station
 from geoalchemy2.shape import to_shape
 
@@ -116,7 +116,7 @@ def find_optimal_refuel_route(origin_coord: Tuple[float, float],
     fuel_unit: 'tons' or 'liters'
     step_size: in same unit as fuel_unit (e.g., 1 ton or 100 liters)
     """
-    db = next(SessionLocal())
+    db = next(get_db())
 
     nodes = _load_nodes_for_mode(db, mode)
 

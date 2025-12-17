@@ -28,7 +28,7 @@ import argparse
 import tempfile
 import requests
 from typing import Optional
-from app.db import SessionLocal
+from app.db import get_db
 from app.models_orm import Port, Airport, Station
 from geoalchemy2.elements import WKTElement
 
@@ -48,7 +48,7 @@ def _download_if_url(path_or_url: str) -> str:
 def import_ports_from_csv(file_path: str, unlocode_col='UN/LOCODE', name_col='Name', lon_col='Longitude', lat_col='Latitude', country_col='Country', price_col=None):
     """Import ports CSV into `ports` table. Accepts local path or HTTP URL."""
     src = _download_if_url(file_path)
-    db = SessionLocal()
+    db = next(get_db())
     try:
         with open(src, newline='', encoding='utf-8') as fh:
             reader = csv.DictReader(fh)
@@ -102,7 +102,7 @@ def import_airports_from_ourairports(file_path: str):
     id,name,latitude_deg,longitude_deg,elevation_ft,continent,iso_country,iso_region,municipality,iata,icao,timezone
     """
     src = _download_if_url(file_path)
-    db = SessionLocal()
+    db = next(get_db())
     try:
         with open(src, newline='', encoding='utf-8') as fh:
             reader = csv.DictReader(fh)
@@ -149,7 +149,7 @@ def import_airports_from_ourairports(file_path: str):
 
 def import_stations_from_csv(file_path: str, lon_col='lon', lat_col='lat', name_col='name', kind_col='kind', price_col=None):
     src = _download_if_url(file_path)
-    db = SessionLocal()
+    db = next(get_db())
     try:
         with open(src, newline='', encoding='utf-8') as fh:
             reader = csv.DictReader(fh)
