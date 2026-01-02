@@ -36,8 +36,20 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get(`${backendBase}/ports`).then(r => { setPorts(r.data); if (r.data.length) setMapCenter([r.data[0].lat, r.data[0].lon]); }).catch(()=>{});
-    axios.get(`${backendBase}/carriers`).then(r => setCarriers(r.data)).catch(()=>{});
+    axios.get(`${backendBase}/ports`)
+      .then(r => { 
+        setPorts(r.data); 
+        if (r.data.length) setMapCenter([r.data[0].lat, r.data[0].lon]); 
+      })
+      .catch(err => {
+        console.warn('Could not load ports:', err.message);
+      });
+    
+    axios.get(`${backendBase}/carriers`)
+      .then(r => setCarriers(r.data))
+      .catch(err => {
+        console.warn('Could not load carriers:', err.message);
+      });
   }, []);
 
   const onMapClick = (latlng) => {
@@ -291,11 +303,17 @@ export default function App() {
           </select>
 
           {/* Advanced Options Toggle */}
-          <button onClick={() => setShowAdvanced(!showAdvanced)} style={{...styles.toggleLink, border: 'none', background: 'none', padding: 0}}>
+          <button 
+            onClick={() => setShowAdvanced(!showAdvanced)} 
+            style={{...styles.toggleLink, border: 'none', background: 'none', padding: 0}}
+            aria-expanded={showAdvanced}
+            aria-controls="advanced-options"
+          >
             {showAdvanced ? "▼ Hide" : "▶ Show"} Advanced Options
           </button>
 
           {showAdvanced && (
+            <div id="advanced-options">
             <>
               <label style={{...styles.label, marginTop: "12px"}}>Vehicle Model (Optional)</label>
               <select 
@@ -321,6 +339,7 @@ export default function App() {
                 <option value="bulk">Bulk Cargo</option>
               </select>
             </>
+            </div>
           )}
         </div>
 
