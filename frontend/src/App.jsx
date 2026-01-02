@@ -217,15 +217,17 @@ export default function App() {
     resultItem: {
       padding: "8px 0",
       borderBottom: "1px solid #d1e7ff",
-      fontSize: "14px"
+      fontSize: "14px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center"
     },
     resultLabel: {
       fontWeight: "600",
       color: "#495057"
     },
     resultValue: {
-      color: "#1a1a1a",
-      float: "right"
+      color: "#1a1a1a"
     },
     toggleLink: {
       color: "#0066cc",
@@ -289,9 +291,9 @@ export default function App() {
           </select>
 
           {/* Advanced Options Toggle */}
-          <a onClick={() => setShowAdvanced(!showAdvanced)} style={styles.toggleLink}>
+          <button onClick={() => setShowAdvanced(!showAdvanced)} style={{...styles.toggleLink, border: 'none', background: 'none', padding: 0}}>
             {showAdvanced ? "▼ Hide" : "▶ Show"} Advanced Options
-          </a>
+          </button>
 
           {showAdvanced && (
             <>
@@ -499,11 +501,30 @@ export default function App() {
               Fuel: ${p.bunker_price}/unit
             </Popup>
           </Marker>)}
-          {origin && <Marker position={[origin.lat, origin.lon]}><Popup><strong>From</strong></Popup></Marker>}
-          {destination && <Marker position={[destination.lat, destination.lon]}><Popup><strong>To</strong></Popup></Marker>}
-          {plan && plan.leg_details && plan.leg_details.map((ld, i) => (
-            <Polyline key={i} positions={[[ld.from_coord.lat, ld.from_coord.lon], [ld.to_coord.lat, ld.to_coord.lon]]} color="#0066cc" weight={3} />
-          ))}
+          {origin && (
+            <Marker position={[origin.lat, origin.lon]}>
+              <Popup><strong>From</strong></Popup>
+            </Marker>
+          )}
+          {destination && (
+            <Marker position={[destination.lat, destination.lon]}>
+              <Popup><strong>To</strong></Popup>
+            </Marker>
+          )}
+          {plan && plan.leg_details && plan.leg_details.map((ld, i) => {
+            const legPositions = [
+              [ld.from_coord.lat, ld.from_coord.lon],
+              [ld.to_coord.lat, ld.to_coord.lon]
+            ];
+            return (
+              <Polyline 
+                key={i} 
+                positions={legPositions} 
+                color="#0066cc" 
+                weight={3} 
+              />
+            );
+          })}
           {refuelResult && refuelResult.fuel_plan && refuelResult.fuel_plan.map((f, i) => {
             const nodeName = f.node;
             const found = ports.find(p => p.name === nodeName);
